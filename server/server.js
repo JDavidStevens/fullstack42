@@ -28,6 +28,19 @@ app.use(session({
     saveUninitialized: false
 }))
 
+//code to avoid logging in while in development mode. See nodemon.js for additional code
+let authBypass= async (req,res,next)=>{
+    // console.log("res",res)
+    if (process.env.NODE_ENV){
+const db = req.app.get('db')
+let user = await db.session_user();
+req.session.user= user[0];
+next();
+    }else{
+next()
+    }
+}
+
 app.get('/auth/callback', async (req, res) => {
     let payload = {
         client_id: REACT_APP_CLIENT_ID,
@@ -57,12 +70,22 @@ app.get('/auth/callback', async (req, res) => {
     res.redirect('/#/confidential')
 })
 
-app.post('/api/auth/logout', (req,res)=>{
-    req.session.destroy();
-    res.status(200).send();
+
+app.get('/api/user-data', authBypass, (req,res)=>{
+    if(req.session.user){
+        res.status(200).send(req.session.user)
+    }else{
+        res.status(401).send("Please log in. Thank you!")
+    }
 })
 
-
+app.get('/auth/logout', (req,res)=>{
+    req.session.destroy();
+    res.redirect('http://localhost:3000/#/')
+}
+)
+//status 401 = "I don't know who you are."
+//status 403 = "I know who you are, and you are not authorized."
 
 
 app.listen(SERVER_PORT, () => {

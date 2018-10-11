@@ -1,28 +1,65 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
+import { updateUser } from '../../ducks/reducer';
+import { connect } from 'react-redux';
 
-class Confidential extends Component{
-    constructor(){
-        super()
-        this.logout=this.logout.bind(this);
+class Confidential extends Component {
+    
+
+    async componentDidMount() {
+        let res = await axios.get('/api/user-data');
+            //invoke action creator
+            this.props.updateUser(res.data)
     }
 
-logout(){
-    axios.post('/api/auth/logout').then(res=>{
-        this.props.history.push('/')
-    })
-}
+    // balance(){
 
-    render(){
-        return(
+    // }
+
+    
+
+    render() {
+        let {
+            customer_name,
+            customer_auth_id,
+            customer_email,
+            customer_picture
+        } = this.props.user;
+
+        console.log("props:", this.props)
+        return (
             <div>
-             Confidential
-             <div>
-             <button onClick={this.logout}>Logout</button>
-             </div>
+                <h1>Account Information</h1>
+                <hr></hr><hr></hr><hr></hr>
+                {
+                    customer_name ? (
+<div>
+<p>Account Holder:{customer_name}</p>
+<p>Email:{customer_email}</p>
+<p>Account Number:{customer_auth_id}</p>
+{/* <p>Balance:{`$${this.balance()}.00`}</p> */}
+<img className="picture" src={customer_picture} alt=''/>
+</div>
+                    ):(
+<div>
+    <p>Please Log In.</p>
+</div>
+                    )
+                }
+                <a href='http://localhost:4000/auth/logout'>
+                    <button>Logout</button>
+                </a>
             </div>
         )
     }
 }
 
-export default Confidential;
+function mapStateToProps(state) {
+
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, { updateUser })(Confidential);
+//invoke connect which is a function. A function is then returned and is then invoked with Confidential

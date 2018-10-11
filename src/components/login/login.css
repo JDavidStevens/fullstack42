@@ -20,7 +20,7 @@
   margin-top:-15vh ;
 }
 
-img {
+.logo {
   width: 250px;
   animation: App-logo-spin infinite 90s linear;
 }
