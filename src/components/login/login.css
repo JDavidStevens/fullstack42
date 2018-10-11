@@ -4,11 +4,27 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: rgb(240, 236, 236);
+  height: 100vh;
 }
+
+
+
+.img-div{
+  display: flex;
+  justify-content: center;
+  border-radius: 200px;
+  background-color: rgb(219, 235, 240);
+  width: 325px;
+  height: 325px;
+  margin-top:-15vh ;
+}
+
 img {
-  margin: 50px;
   width: 250px;
+  animation: App-logo-spin infinite 90s linear;
 }
+
 input {
   margin-top: 15px;
   width: 200px;
@@ -19,15 +35,31 @@ input {
   padding-left: 5px;
 }
 button {
-  margin-top: 15px;
+  margin-top: 75px;
   width: 175px;
   height: 40px;
   border-radius: 5px;
   background: white;
   font-size: 20px;
   font-family: 'Overlock', cursive;
+  background-color: silver;
+  font-weight: 900;
 }
+
 button:focus {
   outline: none;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+@keyframes App-img-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 

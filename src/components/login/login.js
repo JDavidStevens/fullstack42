@@ -14,10 +14,12 @@ window.location = `https://${REACT_APP_DOMAIN}/authorize?client_id=${REACT_APP_C
 
     render(){
         return(
-            <div>
+            <div className="login">
+                <div className="img-div">
                 <img className='logo' src={logo} alt=""/>
+                </div>
                 <div>
-                <button>Login</button>
+                <button onClick={this.login}>Login</button>
                 </div>
             </div>
         )
